@@ -99,6 +99,7 @@ export default function App() {
         type: "success",
         po: data.po_number,
         sapMessage: data.message,
+        previewUrl: data.preview_url,
         plant: payload.Plant,
         compCode: payload.CompCode,
       });
@@ -232,6 +233,42 @@ function Message({ msg }) {
           </div>
           <div className="po-number">{msg.po}</div>
           {msg.sapMessage && <div className="sap-msg">SAP: {msg.sapMessage}</div>}
+          {msg.previewUrl && (
+            <div className="success-actions" style={{ marginTop: "16px" }}>
+              <a
+                href={msg.previewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  textDecoration: "none",
+                  width: "100%",
+                  padding: "10px 16px",
+                  fontSize: "13.5px",
+                }}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Preview PO in SAP WebGUI
+              </a>
+            </div>
+          )}
         </div>
       )}
     </div>

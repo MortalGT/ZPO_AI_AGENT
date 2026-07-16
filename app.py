@@ -62,10 +62,13 @@ if st.session_state.pending_payload is not None:
                 result = SAPClient().create_purchase_order(payload)
             po_number = result.get("PoNumber") or "(unknown)"
             sap_msg = result.get("Message", "")
+            client = config.SAP_CLIENT or "900"
+            preview_url = f"{config.SAP_BASE_URL}/sap/bc/gui/sap/its/webgui?sap-client={client}&~transaction=*OLR3_ME2XN%20OLR3_R3_TS_PDOC-EBELN={po_number};DYNP_OKCODE=DISP#"
             add(
                 "assistant",
                 f"✅ **SUCCESS:** Purchase Order **{po_number}** created in SAP "
                 f"for plant {payload['Plant']} (CC: {payload['CompCode']})."
+                f"\n\n🔗 **[Preview PO in SAP WebGUI]({preview_url})**"
                 + (f"\n\n> SAP: _{sap_msg}_" if sap_msg else ""),
             )
         except SAPError as e:

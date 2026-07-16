@@ -54,9 +54,15 @@ def create_po(req: CreatePORequest):
         raise HTTPException(502, str(e))
     except Exception as e:
         raise HTTPException(502, f"SAP call failed: {e}")
+    
+    po_number = result.get("PoNumber", "")
+    client = config.SAP_CLIENT or "900"
+    preview_url = f"{config.SAP_BASE_URL}/sap/bc/gui/sap/its/webgui?sap-client={client}&~transaction=*OLR3_ME2XN%20OLR3_R3_TS_PDOC-EBELN={po_number};DYNP_OKCODE=DISP#"
+
     return {
-        "po_number": result.get("PoNumber", ""),
+        "po_number": po_number,
         "message": result.get("Message", ""),
+        "preview_url": preview_url,
     }
 
 
